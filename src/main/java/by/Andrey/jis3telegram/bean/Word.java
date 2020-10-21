@@ -27,8 +27,8 @@ public class Word {
     }
 
     public String getAmazingView(){
-        String view = getName() + " "+ getPartsOfSpeech() + " - " + getTranscription() + " - " + getMeaning() + "\n"
-            + getExample();
+        String view = getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n"
+            +  "- " + getExample();
         return view;
     }
 }
