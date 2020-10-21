@@ -1,6 +1,9 @@
 package by.Andrey.jis3telegram.data.service;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,12 +18,12 @@ public class DataService {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(filePath.concat(fileName)), "UTF8"));
-        List<String> mapEnglishWords = new ArrayList<>();
+        List<String> EnglishWords = new ArrayList<>();
 
         while (in.ready()){
-            mapEnglishWords.add(in.readLine());
+            EnglishWords.add(in.readLine());
         }
-        return mapEnglishWords;
+        return EnglishWords;
     }
 
     public static List<String> getAllList(List<String> file1, List<String> file2){
@@ -52,4 +55,18 @@ public class DataService {
        }
         return "I haven`t this word";
     }
+
+    //new methods for new brand bot.
+
+    public static void copyFiles(String left, String right){
+        Path from = Paths.get(left);
+        Path to = Paths.get(right);
+
+        try {
+            Files.copy(from, to);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

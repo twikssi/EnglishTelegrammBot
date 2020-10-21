@@ -53,4 +53,9 @@ public class DataServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void copyFiles() {
+        DataService.copyFiles(DataService.filePath + "words.txt",DataService.filePath + "wordsCopy.txt");
+    }
 }
