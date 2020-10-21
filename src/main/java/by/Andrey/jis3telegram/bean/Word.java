@@ -9,6 +9,7 @@ public class Word {
     private PartsOfSpeech partsOfSpeech;
     private String transcription;
     private String meaning;
+    private String example;
     private long numberOfRepetitions = 0;
     private boolean isDaily = false;
 }
