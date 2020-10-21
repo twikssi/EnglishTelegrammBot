@@ -25,4 +25,10 @@ public class Word {
         this.example = example;
         this.isDaily = isDaily;
     }
+
+    public String getAmazingView(){
+        String view = getName() + " "+ getPartsOfSpeech() + " - " + getTranscription() + " - " + getMeaning() + "\n"
+            + getExample();
+        return view;
+    }
 }
