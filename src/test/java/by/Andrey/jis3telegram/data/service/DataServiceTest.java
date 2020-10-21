@@ -56,6 +56,6 @@ public class DataServiceTest {
 
     @Test
     public void copyFiles() {
-        DataService.copyFiles(DataService.filePath + "words.txt",DataService.filePath + "wordsCopy.txt");
+        DataService.copyFiles(DataService.filePath + "words.txt",DataService.filePath + "wordsCopyTest.txt");
     }
 }

@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,9 +62,8 @@ public class DataService {
     public static void copyFiles(String left, String right){
         Path from = Paths.get(left);
         Path to = Paths.get(right);
-
         try {
-            Files.copy(from, to);
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
