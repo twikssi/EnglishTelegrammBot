@@ -2,12 +2,14 @@ package by.Andrey.jis3telegram.bean;
 
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Word {
     private String name;
     private PartsOfSpeech partsOfSpeech;
