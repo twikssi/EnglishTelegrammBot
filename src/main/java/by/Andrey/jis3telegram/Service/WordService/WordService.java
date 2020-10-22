@@ -67,4 +67,21 @@ public class WordService {
             }
         };
     }
+
+    public static boolean isWordExistInList(List<Word> words, String wanted){
+        boolean isExiste = false;
+        for(Word word: words){
+            if (word.getName().equals(wanted.toLowerCase().trim())){
+                isExiste = true;
+            }
+        }
+        return isExiste;
+    }
+
+
+    public static Word searchWordWithName(List<Word> words, String wanted){
+        return words.stream()
+                .filter(a->a.getName().equals(wanted.toLowerCase().trim()))
+                .collect(Collectors.toList()).get(0);
+    }
 }

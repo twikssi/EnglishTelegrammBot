@@ -3,6 +3,7 @@ package by.Andrey.jis3telegram.Service.WordService;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,4 +82,25 @@ public class WordServiceTest {
     }
 
 
+    @Test
+    public void isWordExistInList() {
+        String word1 = "   stay uP";
+
+        boolean expected = true;
+        boolean actual = WordService.isWordExistInList(words, word1);
+        assertEquals(expected,actual);
+
+    }
+
+    @Test
+    public void searchWordWithName() {
+        String word1 = "   stay uP";
+        Word word = WordService.createNewWord("stay up", PartsOfSpeech.PHRASAL_VERB, "[stay up]", "не ложиться спать", " I stayed up to watch the Olympics on television. ", false);
+        System.out.println(WordService.searchWordWithName(words, word1));
+
+        Word expected = word;
+        Word actual = WordService.searchWordWithName(words, word1);
+        assertEquals(expected,actual);
+
+    }
 }
