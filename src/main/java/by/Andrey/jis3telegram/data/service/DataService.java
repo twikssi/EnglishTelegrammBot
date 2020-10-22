@@ -64,8 +64,8 @@ public class DataService {
     //new methods for new brand bot.
 
     public static void copyFiles(String left, String right){
-        Path from = Paths.get(left);
-        Path to = Paths.get(right);
+        Path from = Paths.get(filePath.concat(left));
+        Path to = Paths.get(filePath.concat(right));
         try {
             Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -95,6 +95,12 @@ public class DataService {
         out.close();
     }
 
+    public static void rewriteFieldNumberOfRepetitionToFile(String fileName, String fileToCopy, Word word) throws IOException {
+        List<Word> listWords = WordService.getListWordsFromListString(getListStringWordsFromFile(fileName));
+        copyFiles(fileName, fileToCopy);
+        WordService.increaseNumberOfRepetitions(listWords, word);
+        writeListWordsToFile(fileName, listWords, false);
+    }
 
 
 }

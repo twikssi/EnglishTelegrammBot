@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
@@ -65,4 +66,19 @@ public class WordServiceTest {
         String actual = result.get(4).toString();
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void increaseNumberOfRepetitions(){
+       Word word = WordService.createNewWord("get", PartsOfSpeech.VERB, "[get]", "получать", "I get info", false);
+       List<Word> wordsNoIm = new ArrayList<>(words);
+       wordsNoIm.forEach(a-> System.out.println(a.viewToWriteFile()));
+       WordService.increaseNumberOfRepetitions(wordsNoIm, word);
+       wordsNoIm.forEach(a-> System.out.println(a.viewToWriteFile()));
+
+       long expected = 1;
+       long actual = wordsNoIm.get(0).getNumberOfRepetitions();
+       assertEquals(expected,actual);
+    }
+
+
 }

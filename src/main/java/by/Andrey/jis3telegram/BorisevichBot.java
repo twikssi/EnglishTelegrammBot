@@ -1,5 +1,6 @@
 package by.Andrey.jis3telegram;
 
+import by.Andrey.jis3telegram.Service.WordService.WordService;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.data.service.DataService;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 
+import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
 import static by.Andrey.jis3telegram.command.CommandService.*;
 import static by.Andrey.jis3telegram.data.service.DataService.*;
 
@@ -39,7 +41,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                     try {
                         String word = getWordFromCommand(message.getText().toLowerCase());
                         String respons = searchWord(
-                                getAllList(getListWords("pv.txt"), getListWords("words.txt")),
+                                getAllList(getListWords("pv.txt"), getListWords("wordsoldversion.txt")),
                                         word
                                         );
                         sendMesg(message, respons);
@@ -55,23 +57,24 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 switch (message.getText().toLowerCase()) {
                     case "/get word":
                         try {
-                            String[] respons = getRandomWord(getListWords("words.txt"));
-                            sendMesg(message, "Do you 'member word '" + respons[0] + "'?");
+                            Word word = getRandomWord(getListOnlyWords(getListWordsFromListString(getListStringWordsFromFile("words.txt"))));
+                            sendMesg(message, "Do you 'member word '" + word.getName() + "'?");
                             Thread.sleep(5000);
-                            sendMesg(message, respons[0] + " - " + respons[1]);
+                            sendMesg(message, word.getAmazingView());
+                            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt",word);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         break;
-
                     case "/get pv":
                         try {
-                            String[] respons = getRandomWord(getListWords("pv.txt"));
-                            sendMesg(message, "Do you 'member phrasal verb '" + respons[0] + "'?");
-                            Thread.sleep(4000);
-                            sendMesg(message, respons[0] + " - " + respons[1]);
+                            Word word = getRandomWord(getListOnlyPhrasalVerbs(getListWordsFromListString(getListStringWordsFromFile("words.txt"))));
+                            sendMesg(message, "Do you 'member word '" + word.getName() + "'?");
+                            Thread.sleep(5000);
+                            sendMesg(message, word.getAmazingView());
+                            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt",word);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -80,11 +83,11 @@ public class BorisevichBot extends TelegramLongPollingBot {
                         break;
                     case "/get":
                         try {
-                            String[] respons =
-                                    getRandomWord(getAllList(getListWords("pv.txt"), getListWords("words.txt")));
-                            sendMesg(message, "What does it mean '" + respons[0] + "'?");
-                            Thread.sleep(4000);
-                            sendMesg(message, respons[0] + " - " + respons[1]);
+                            Word word = getRandomWord(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
+                            sendMesg(message, "Do you 'member word '" + word.getName() + "'?");
+                            Thread.sleep(5000);
+                            sendMesg(message, word.getAmazingView());
+                            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt",word);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {

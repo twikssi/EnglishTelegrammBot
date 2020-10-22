@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataServiceTest {
@@ -39,7 +38,7 @@ public class DataServiceTest {
     @Test
     public void returnWordsWithoutValues() {
         try {
-            System.out.println(DataService.returnWordsWithoutValues(DataService.getListWords("words.txt")));
+            System.out.println(DataService.returnWordsWithoutValues(DataService.getListWords("wordsoldversion.txt")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,7 +47,7 @@ public class DataServiceTest {
     @Test
     public void searchWords(){
         try {
-            System.out.println(DataService.searchWord(DataService.getListWords("words.txt"),"tough"));
+            System.out.println(DataService.searchWord(DataService.getListWords("wordsoldversion.txt"),"tough"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +74,7 @@ public class DataServiceTest {
     //new brand test bot
     @Test
     public void copyFiles() {
-        DataService.copyFiles(DataService.filePath + "wordsCopy.txt",DataService.filePath + "wordsCopyTest.txt");
+        DataService.copyFiles("wordsCopy.txt", "wordsTest.txt");
     }
 
 
@@ -90,9 +89,16 @@ public class DataServiceTest {
                 WordService.createNewWord("humble", PartsOfSpeech.ADJECTIVE, "[ˈhʌm.bl]", "not proud or not believing that you are important", "He's very humble about his success.", false)
         );
         try {
-            DataService.writeListWordsToFile("wordsCopyTest.txt", words , false);
+            DataService.writeListWordsToFile("wordsTest.txt", words , false);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void rewriteFieldNumberOfRepetitionToFile() throws IOException {
+        Word word = WordService.createNewWord("get", PartsOfSpeech.VERB, "[get]", "получать", "I get info", false);
+        word.setNumberOfRepetitions(2);
+        DataService.rewriteFieldNumberOfRepetitionToFile("wordsTest.txt", "wordsCopyTest.txt", word);
     }
 }

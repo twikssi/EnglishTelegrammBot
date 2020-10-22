@@ -59,4 +59,12 @@ public class WordService {
     public static void printList(List<Word> words){
        words.stream().forEach(a -> System.out.println(a.getAmazingView()));
     }
+
+    public static void increaseNumberOfRepetitions(List<Word> words, Word wordToIncrease){
+        for (Word objWord: words){
+            if (objWord.equals(wordToIncrease)){
+                objWord.setNumberOfRepetitions(objWord.getNumberOfRepetitions() + 1);
+            }
+        };
+    }
 }
