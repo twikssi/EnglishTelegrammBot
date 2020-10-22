@@ -73,8 +73,6 @@ public class DataService {
         }
     }
 
-
-
     public static List<String> getListStringWordsFromFile(String fileName) throws IOException{
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
@@ -84,7 +82,17 @@ public class DataService {
         while (in.ready()){
             EnglishWords.add(in.readLine());
         }
+        in.close();
         return EnglishWords;
+    }
+
+    public static void writeListWordsToFile (String fileName, List<Word> words, boolean isAppend) throws IOException {
+        BufferedWriter  out = new BufferedWriter(new FileWriter(filePath.concat(fileName), isAppend));
+        for(Word word:words){
+            out.write(word.viewToWriteFile());
+            out.newLine();
+        }
+        out.close();
     }
 
 

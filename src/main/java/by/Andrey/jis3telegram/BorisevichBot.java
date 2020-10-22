@@ -1,5 +1,6 @@
 package by.Andrey.jis3telegram;
 
+import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.data.service.DataService;
 import org.springframework.stereotype.Component;

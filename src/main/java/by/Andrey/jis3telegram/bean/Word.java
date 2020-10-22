@@ -35,4 +35,14 @@ public class Word implements Serializable {
             +  "- " + getExample();
         return view;
     }
+
+    public String viewToWriteFile(){
+        return getName() + "=" +
+                getPartsOfSpeech().toString() + "=" +
+                getTranscription() + "=" +
+                getMeaning() + "=" +
+                getExample() + "=" +
+                getNumberOfRepetitions() + "=" +
+                isDaily();
+    }
 }

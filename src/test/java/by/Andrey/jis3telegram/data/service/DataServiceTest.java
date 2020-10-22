@@ -79,4 +79,20 @@ public class DataServiceTest {
     }
 
 
+    @Test
+    public void writeListWordsToFile() {
+        words = List.of(
+                WordService.createNewWord("get", PartsOfSpeech.VERB, "[get]", "получать", "I get info", false),
+                WordService.createNewWord("get over", PartsOfSpeech.PHRASAL_VERB, "[get over]", "справлять с проблемой", "I get over my legs pain", false),
+                WordService.createNewWord("slide", PartsOfSpeech.VERB, "[slaɪd]", "скользить", " When I was little I used to like sliding on the polished floor in my socks. ", false),
+                WordService.createNewWord("innocent", PartsOfSpeech.ADJECTIVE, "[ˈɪn.ə.sənt]", "невиновный", "He firmly believes that she is innocent of the crime.", false),
+                WordService.createNewWord("stay up", PartsOfSpeech.PHRASAL_VERB, "[stay up]", "не ложиться спать", " I stayed up to watch the Olympics on television. ", false),
+                WordService.createNewWord("humble", PartsOfSpeech.ADJECTIVE, "[ˈhʌm.bl]", "not proud or not believing that you are important", "He's very humble about his success.", false)
+        );
+        try {
+            DataService.writeListWordsToFile("wordsCopyTest.txt", words , false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
