@@ -9,8 +9,7 @@ public class WordTest {
 
     @Test
     public void getAmazingView() {
-        Word word = new Word("get", PartsOfSpeech.VERB ,"[get]", "получать","I get pencil", false);
-
+        Word word = new Word("get", PartsOfSpeech.VERB ,"[get]", "получать","I get pencil./ iji./ ji.", false);
         System.out.println(word.getAmazingView());
     }
 }
