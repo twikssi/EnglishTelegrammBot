@@ -1,5 +1,9 @@
 package by.Andrey.jis3telegram.data.service;
 
+import by.Andrey.jis3telegram.Service.WordService.WordService;
+import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.enums.PartsOfSpeech;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,5 +72,21 @@ public class DataService {
             e.printStackTrace();
         }
     }
+
+
+
+    public static List<String> getListStringWordsFromFile(String fileName) throws IOException{
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(filePath.concat(fileName)), "UTF8"));
+        List<String> EnglishWords = new ArrayList<>();
+
+        while (in.ready()){
+            EnglishWords.add(in.readLine());
+        }
+        return EnglishWords;
+    }
+
+
 
 }

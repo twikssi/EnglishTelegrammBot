@@ -39,6 +39,23 @@ public class WordService {
         return wordNoImmutable.get(0);
     }
 
+    public static List<Word> getListWordsFromListString(List<String> wordsString){
+        List<Word> wordsList = new ArrayList<>();
+        for (String line: wordsString){
+            String[] lineArray = line.split("=");
+            wordsList.add(Word.builder()
+                    .name(lineArray[0])
+                    .partsOfSpeech(PartsOfSpeech.valueOf(lineArray[1].toUpperCase()))
+                    .transcription(lineArray[2])
+                    .meaning(lineArray[3])
+                    .example(lineArray[4])
+                    .numberOfRepetitions(Long.valueOf(lineArray[5]))
+                    .isDaily(Boolean.valueOf(lineArray[6]))
+                    .build());
+        }
+        return wordsList;
+    }
+
     public static void printList(List<Word> words){
        words.stream().forEach(a -> System.out.println(a.getAmazingView()));
     }

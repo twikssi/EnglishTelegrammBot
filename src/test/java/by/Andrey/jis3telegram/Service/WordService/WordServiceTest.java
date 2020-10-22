@@ -1,10 +1,12 @@
 package by.Andrey.jis3telegram.Service.WordService;
 
 import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
@@ -51,5 +53,16 @@ public class WordServiceTest {
     @Test
     public void getRandomWord() {
         System.out.println(WordService.getRandomWord(WordService.getListOnlyWords(words)).getAmazingView());
+    }
+
+    @Test
+    public void getListWordsFromListString() throws IOException {
+        List<String> listString = DataService.getListStringWordsFromFile("wordsnewbrandcopytest.txt");
+        List<Word> result = WordService.getListWordsFromListString(listString);
+                result.forEach(System.out::println);
+
+        String expected = "Word(name=stand out, partsOfSpeech=PHRASAL_VERB, transcription=[], meaning=to be very noticeable:, example=The black lettering really stands out on that orange background., numberOfRepetitions=0, isDaily=false)";
+        String actual = result.get(4).toString();
+        assertEquals(expected, actual);
     }
 }
