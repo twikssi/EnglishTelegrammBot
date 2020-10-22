@@ -31,9 +31,15 @@ public class Word implements Serializable {
     }
 
     public String getAmazingView(){
-        String view = getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n"
-            +  "- " + getExample();
+        String view =getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n";
+        for (int i=0; i< breakIntoPeacesFieldExample().length;  i++){
+            view.concat(breakIntoPeacesFieldExample()[i] + "\n");
+        }
         return view;
+    }
+
+    private String[] breakIntoPeacesFieldExample(){
+        return getExample().split(".");
     }
 
     public String viewToWriteFile(){
