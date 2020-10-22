@@ -78,7 +78,6 @@ public class WordService {
         return isExiste;
     }
 
-
     public static Word searchWordWithName(List<Word> words, String wanted){
         return words.stream()
                 .filter(a->a.getName().equals(wanted.toLowerCase().trim()))

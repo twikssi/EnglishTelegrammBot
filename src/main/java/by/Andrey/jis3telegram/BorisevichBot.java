@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
 import static by.Andrey.jis3telegram.command.CommandService.*;
@@ -40,12 +41,14 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 if (checkCommand(message.getText().toLowerCase())) {
                     try {
                         String word = getWordFromCommand(message.getText().toLowerCase());
-                        String respons = searchWord(
-                                getAllList(getListWords("pv.txt"), getListWords("wordsoldversion.txt")),
-                                        word
-                                        );
-                        sendMesg(message, respons);
-                        Thread.sleep(2500);
+
+                        List<Word> listWords = getListWordsFromListString(getListStringWordsFromFile("words.txt"));
+                        if (WordService.isWordExistInList(listWords, word)){
+                            Word responsWord = searchWordWithName(listWords, word);
+                            sendMesg(message, responsWord.getAmazingView());
+                            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt",responsWord);
+                            Thread.sleep(2500);
+                        }
                         sendMesg(message,"you can find it on " + CommandService.getMeaningsFromWebSite(word));
                     } catch (IOException e) {
                         e.printStackTrace();
