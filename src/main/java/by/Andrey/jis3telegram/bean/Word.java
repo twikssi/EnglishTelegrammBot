@@ -54,6 +54,6 @@ public class Word implements Serializable {
     }
 
     public String viewToStatistic(){
-        return "Word '" + getName() + "' was repeated " + getNumberOfRepetitions();
+        return "Word '" + getName() + "' was repeated " + getNumberOfRepetitions() + " times.";
     }
 }
