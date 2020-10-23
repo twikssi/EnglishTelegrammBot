@@ -4,6 +4,7 @@ import by.Andrey.jis3telegram.Service.WordService.WordService;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.data.service.DataService;
+import by.Andrey.jis3telegram.statistic.Statistic;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -94,6 +95,24 @@ public class BorisevichBot extends TelegramLongPollingBot {
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "/get short statistic":
+                        try {
+                            Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
+                            String response = statistic.returnShortStatistic();
+                            sendMesg(message, response);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "/get long statistic":
+                        try {
+                            Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
+                            String response = statistic.returnLongStatistic();
+                            sendMesg(message, response);
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                         break;
