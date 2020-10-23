@@ -52,4 +52,8 @@ public class Word implements Serializable {
                 getNumberOfRepetitions() + "=" +
                 isDaily();
     }
+
+    public String viewToStatistic(){
+        return "Word '" + getName() + "' was repeated " + getNumberOfRepetitions();
+    }
 }

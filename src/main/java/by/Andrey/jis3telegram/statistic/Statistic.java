@@ -25,4 +25,6 @@ public class Statistic {
                 .sorted(sortByName).sorted(sortByNumberOfRepetitions)
                 .collect(Collectors.toList());
     }
+
+
 }
