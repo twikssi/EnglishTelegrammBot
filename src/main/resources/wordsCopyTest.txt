@@ -3,4 +3,4 @@ get over=PHRASAL_VERB=[get over]=справлять с проблемой=I get 
 slide=VERB=[slaɪd]=скользить= When I was little I used to like sliding on the polished floor in my socks. =0=false
 innocent=ADJECTIVE=[ˈɪn.ə.sənt]=невиновный=He firmly believes that she is innocent of the crime.=0=false
 stay up=PHRASAL_VERB=[stay up]=не ложиться спать= I stayed up to watch the Olympics on television. =0=false
-humble=ADJECTIVE=[ˈhʌm.bl]=not proud or not believing that you are important=He's very humble about his success.=0=false
+humble=ADJECTIVE=[ˈhʌm.bl]=not proud or not believing that you are important=He's very humble about his success.=10=false
