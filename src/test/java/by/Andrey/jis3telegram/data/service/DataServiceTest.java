@@ -2,6 +2,7 @@ package by.Andrey.jis3telegram.data.service;
 
 import by.Andrey.jis3telegram.Service.WordService.WordService;
 import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -53,4 +54,11 @@ public class DataServiceTest {
         word.setNumberOfRepetitions(2);
         DataService.rewriteFieldNumberOfRepetitionToFile("wordsTest.txt", "wordsCopyTest.txt", word);
     }
+
+//    @org.junit.Test
+//    public void writeNewWordToFile() throws IOException {
+//        DataFromWebSite fromWebSite = new DataFromWebSite("pull");
+//        Word word = WordService.createNewWordFromNoFormatStringList(fromWebSite.getListNoFormatFieldOfWord());
+//        DataService.writeNewWordToFile("wordsTest.txt", "wordsCopyTest.txt", word);
+//    }
 }

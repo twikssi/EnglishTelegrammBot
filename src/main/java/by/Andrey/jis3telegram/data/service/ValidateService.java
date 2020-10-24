@@ -23,12 +23,17 @@ public class ValidateService {
         resultText = resultText.replace(".", "./");
         resultText = resultText.replace("?","?/");
         resultText = resultText.replace("!", "!/");
+        resultText = resultText.replace("=", " ");
         return resultText;
+    }
+
+    public static String replaceAllEquallyOnSpace(String text){
+        return text.replace("=", " ")        ;
     }
 
     public static PartsOfSpeech getPartOfSpeechToWriteInObject(String partOfSpeechNoFormat){
         String[] partOfSpeechNoFormatArray = breakStringOnPeaceWithSpace(partOfSpeechNoFormat);
-        switch(partOfSpeechNoFormatArray[0].toLowerCase().trim()){
+        switch(replaceAllEquallyOnSpace(partOfSpeechNoFormatArray[0].toLowerCase().trim())){
             case "noun":
                 return PartsOfSpeech.NOUN;
             case "phrasal":
@@ -55,12 +60,12 @@ public class ValidateService {
     }
 
     public static String getTranscriptionToWriteInObject(String transcriptionNoFormat){
-        String[] transcriptionNoFormatArr = breakStringOnPeaceWithSpace(transcriptionNoFormat);
+        String[] transcriptionNoFormatArr = breakStringOnPeaceWithSpace(replaceAllEquallyOnSpace(transcriptionNoFormat));
         return "[" + transcriptionNoFormatArr[0] +"]";
     }
 
     public static String getMeaningToWriteInObject(String meaningNoFormat){
-        String[] meaningNoFormatArr = breakStringOnPeaceWithTwoDotes(meaningNoFormat);
+        String[] meaningNoFormatArr = breakStringOnPeaceWithTwoDotes(replaceAllEquallyOnSpace(meaningNoFormat));
         if (meaningNoFormatArr.length >= 2){
             return meaningNoFormatArr[0] + " Also meaning: " + meaningNoFormatArr[1];
         } else {
@@ -70,7 +75,7 @@ public class ValidateService {
 
     public static String getExampleToWriteInObject(String exampleNoFormat){
         String[] exampleNoFormatArr = breakStringOnPeaceWithSlash(
-                replaceDotersSlashesQuestionSymbolAndAttentionSymbolToSlashAndNewLine(exampleNoFormat));
+                replaceDotersSlashesQuestionSymbolAndAttentionSymbolToSlashAndNewLine(replaceAllEquallyOnSpace(exampleNoFormat)));
         int iterator;
         String exampleFormat = "";
 
@@ -88,11 +93,11 @@ public class ValidateService {
 
     public static List<String> getListFieldsOfWord(List<String> listNoFormatFieldsOfWord){
         List<String> listFieldsOfWord = new ArrayList<>();
-
-        listFieldsOfWord.add(getPartOfSpeechToWriteInObject(listNoFormatFieldsOfWord.get(0)).toString());
-        listFieldsOfWord.add(getTranscriptionToWriteInObject(listNoFormatFieldsOfWord.get(1)));
-        listFieldsOfWord.add(getMeaningToWriteInObject(listNoFormatFieldsOfWord.get(2)));
-        listFieldsOfWord.add(getExampleToWriteInObject(listNoFormatFieldsOfWord.get(3)));
+        listFieldsOfWord.add(listNoFormatFieldsOfWord.get(0).toLowerCase().trim());
+        listFieldsOfWord.add(getPartOfSpeechToWriteInObject(listNoFormatFieldsOfWord.get(1)).toString());
+        listFieldsOfWord.add(getTranscriptionToWriteInObject(listNoFormatFieldsOfWord.get(2)));
+        listFieldsOfWord.add(getMeaningToWriteInObject(listNoFormatFieldsOfWord.get(3)));
+        listFieldsOfWord.add(getExampleToWriteInObject(listNoFormatFieldsOfWord.get(4)));
 
         return listFieldsOfWord;
 

@@ -1,6 +1,7 @@
 package by.Andrey.jis3telegram.Service.WordService;
 
 import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.data.service.ValidateService;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 
 import java.util.ArrayList;
@@ -18,6 +19,17 @@ public class WordService {
                 .meaning(meaning)
                 .example(example)
                 .isDaily(isDaily).build();
+    }
+
+    public static Word createNewWordFromNoFormatStringList(List<String> listNoFormatFieldsOfWord){
+        List<String> listFormatFieldsOfWord = ValidateService.getListFieldsOfWord(listNoFormatFieldsOfWord);
+        return Word.builder()
+                .name(listFormatFieldsOfWord.get(0))
+                .partsOfSpeech(PartsOfSpeech.valueOf(listFormatFieldsOfWord.get(1)))
+                .transcription(listFormatFieldsOfWord.get(2))
+                .meaning(listFormatFieldsOfWord.get(3))
+                .example(listFormatFieldsOfWord.get(4))
+                .isDaily(false).build();
     }
 
     public static List<Word> getListOnlyWords(List<Word> words){

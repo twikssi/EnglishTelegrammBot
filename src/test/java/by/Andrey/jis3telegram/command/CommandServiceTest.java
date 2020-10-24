@@ -22,4 +22,10 @@ public class CommandServiceTest {
         boolean expected = CommandService.checkCommand("/get pv get");
         System.out.println(expected);
     }
+
+    @org.junit.Test
+    public void getWordFromCommandAdded() {
+        String result = CommandService.getWordFromCommandAdd("/added get off");
+        System.out.println(result);
+    }
 }

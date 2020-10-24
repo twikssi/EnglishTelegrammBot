@@ -57,4 +57,11 @@ public class DataService {
         WordService.increaseNumberOfRepetitions(listWords, word);
         writeListWordsToFile(fileName, listWords, false);
     }
+
+    public static void writeNewWordToFile(String fileName, String fileToCopy, Word word) throws IOException {
+        copyFiles(fileName, fileToCopy);
+        List<Word> listWords = new ArrayList<>();
+        listWords.add(word);
+        writeListWordsToFile(fileName, listWords, true);
+    }
 }

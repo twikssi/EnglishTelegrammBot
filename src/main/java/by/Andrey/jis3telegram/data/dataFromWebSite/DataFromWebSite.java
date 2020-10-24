@@ -13,10 +13,12 @@ import static by.Andrey.jis3telegram.command.CommandService.dictinary;
 
 public class DataFromWebSite {
     Document doc;
+    String word;
 
     public DataFromWebSite(String wordName) {
         try {
             this.doc = Jsoup.connect(dictinary + wordName).get();
+            word = wordName;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,6 +46,7 @@ public class DataFromWebSite {
 
     public List<String> getListNoFormatFieldOfWord (){
         List<String> listNoFormatFieldsOfWord = new ArrayList<>();
+        listNoFormatFieldsOfWord.add(word);
         listNoFormatFieldsOfWord.add(pullOutPartOfSpeechFromWebSite());
         listNoFormatFieldsOfWord.add(pullOutTranscriptionFromWebSite());
         listNoFormatFieldsOfWord.add(pullOutMeaningFromWebSite());

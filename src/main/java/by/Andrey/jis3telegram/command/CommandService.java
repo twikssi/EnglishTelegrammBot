@@ -11,7 +11,11 @@ public class CommandService {
         } else {
             return wordsCommandPv[1].trim();
         }
+    }
 
+    public static String getWordFromCommandAdd(String command){
+        String[] wordsCommandGet = command.split("/add");
+        return wordsCommandGet[1].trim();
     }
 
     public static boolean checkCommand(String command){
@@ -19,6 +23,14 @@ public class CommandService {
         if (wordsCommand.length > 2 &&
                 wordsCommand[0].equals("/get") &&
                 (wordsCommand[1].equals("word") || wordsCommand[1].equals("pv"))){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean checkCommandAdd(String command){
+        String[] wordsCommand = command.split(" ");
+        if (wordsCommand[0].equals("/add")){
             return true;
         }
         return false;

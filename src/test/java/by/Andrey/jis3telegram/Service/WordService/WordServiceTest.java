@@ -1,6 +1,7 @@
 package by.Andrey.jis3telegram.Service.WordService;
 
 import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 import org.junit.Assert;
@@ -103,4 +104,11 @@ public class WordServiceTest {
         assertEquals(expected,actual);
 
     }
+
+//    @Test
+//    public void createNewWordFromNoFormatStringList() {
+//        DataFromWebSite fromWebSite = new DataFromWebSite("hit");
+//        Word word = WordService.createNewWordFromNoFormatStringList(fromWebSite.getListNoFormatFieldOfWord());
+//        System.out.println(word.getAmazingView());
+//    }
 }

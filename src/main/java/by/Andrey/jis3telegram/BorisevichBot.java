@@ -3,6 +3,7 @@ package by.Andrey.jis3telegram;
 import by.Andrey.jis3telegram.Service.WordService.WordService;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
+import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.statistic.Statistic;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,20 @@ public class BorisevichBot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             Message message = update.getMessage();
             if (message.hasText()) {
+                if (checkCommandAdd(message.getText().toLowerCase())){
+                    String word = getWordFromCommandAdd(message.getText().toLowerCase());
+
+                    DataFromWebSite wordFromWebSite = new DataFromWebSite(word);
+                    List<String> noFormatListString = wordFromWebSite.getListNoFormatFieldOfWord();
+                    Word newWord = createNewWordFromNoFormatStringList(noFormatListString);
+                    try {
+                        DataService.writeNewWordToFile("words.txt","wordsCopy.txt", newWord);
+                        String answer = "Word has been added";
+                        sendMesg(message, answer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (checkCommand(message.getText().toLowerCase())) {
                     try {
                         String word = getWordFromCommand(message.getText().toLowerCase());
