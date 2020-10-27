@@ -15,7 +15,11 @@ public class CommandService {
 
     public static String getWordFromCommandAdd(String command){
         String[] wordsCommandGet = command.split("/add");
-        return wordsCommandGet[1].trim();
+        if (wordsCommandGet.length == 0){
+            return "";
+        } else {
+            return wordsCommandGet[1].trim();
+        }
     }
 
     public static boolean checkCommand(String command){
@@ -43,8 +47,20 @@ public class CommandService {
         } else {
             return dictinary + words[0] + "-" + words[1];
         }
-
     }
+
+    public static String getListCommand(){
+        return "/get - get random word or phrasa verb \n" +
+                            "/get pv - get random phrasal verb \n" +
+                            "/get word - get random word \n" +
+                            "/get short statistic - show short statistic \n" +
+                            "/get long statistic - show long statistic \n" +
+                            "/get word 'any word or phrasal verb' \n" +
+                            "/add 'any word or phrasal verb' \n"
+                ;
+    }
+
+
 
 
 }
