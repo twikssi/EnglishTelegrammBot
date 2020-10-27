@@ -5,27 +5,23 @@ import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.DataService;
+import by.Andrey.jis3telegram.enums.Emoji;
 import by.Andrey.jis3telegram.statistic.Statistic;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
-import static by.Andrey.jis3telegram.command.CommandService.*;
 import static by.Andrey.jis3telegram.data.service.DataService.*;
 
 
@@ -59,10 +55,10 @@ public class BorisevichBot extends TelegramLongPollingBot {
             if (lastMessage.equals("")) {
                 sendMessage.setText(getMessage(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("words")) {
+            } else if (lastMessage.equals("words" + Emoji.ARROW_DOWN.toString())) {
                 sendMessage.setText(getMenuWords(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("statistic")) {
+            } else if (lastMessage.equals("statistic " + Emoji.STATISTIC.toString())) {
                 sendMessage.setText(getMenuStatistic(text));
                 execute(sendMessage);
             } else if (lastMessage.equals("search")) {
@@ -177,12 +173,12 @@ public class BorisevichBot extends TelegramLongPollingBot {
             createMainMenu(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             return "choose...";
         }
-        if (msg.equals("words")) {
+        if (msg.equals("words"+ Emoji.ARROW_DOWN.toString())) {
             lastMessage = msg;
             createMenuWords(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             return "choose...";
         }
-        if (msg.equals("statistic")) {
+        if (msg.equals("statistic " + Emoji.STATISTIC.toString())) {
             lastMessage = msg;
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             return "choose...";
@@ -210,8 +206,8 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("words");
-        keyboardFirstRow.add("statistic");
+        keyboardFirstRow.add("words" + Emoji.ARROW_DOWN.toString());
+        keyboardFirstRow.add("statistic " + Emoji.STATISTIC.toString());
 
         // Добавляем кнопки во вторую строчку клавиатуры
         keyboardSecondRow.add("search");
@@ -246,10 +242,10 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("short statistic");
+        keyboardFirstRow.add("short statistic " + Emoji.STATISTIC_SHORT);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("long statistic");
+        keyboardSecondRow.add("long statistic " + Emoji.STATISTIC_LONG);
         keyboardSecondRow.add("<-back");
 
         // Добавляем все строчки клавиатуры в список
@@ -353,7 +349,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        if (msg.equals("short statistic")) {
+        if (msg.equals("short statistic " + Emoji.STATISTIC_SHORT)) {
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
@@ -363,7 +359,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("long statistic")) {
+        if (msg.equals("long statistic "  + Emoji.STATISTIC_LONG)) {
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
@@ -405,8 +401,19 @@ public class BorisevichBot extends TelegramLongPollingBot {
             return "choose...";
         }
         if (secondMenuCommand.equals("search word")) {
-            secondMenuCommand = "";
-            return "The word '" + msg + "'";
+            try {
+                secondMenuCommand = "";
+                String word = msg.toLowerCase().trim();
+                List<Word> listWords = getListWordsFromListString(getListStringWordsFromFile("words.txt"));
+                if (WordService.isWordExistInList(listWords, word)) {
+                    Word responsWord = searchWordWithName(listWords, word);
+                    rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", responsWord);
+                    return responsWord.getAmazingView();
+                }
+                return "There isn`t this word. You can see it on: \n" + CommandService.getMeaningsFromWebSite(word);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return "there isn't such menu";
     }
@@ -436,7 +443,17 @@ public class BorisevichBot extends TelegramLongPollingBot {
         }
         if (secondMenuCommand.equals("add words")) {
             secondMenuCommand = "";
-            return "This word '" + msg + "' has been added ";
+
+            String word = msg.toLowerCase().trim();
+            DataFromWebSite wordFromWebSite = new DataFromWebSite(word);
+            List<String> noFormatListString = wordFromWebSite.getListNoFormatFieldOfWord();
+            Word newWord = createNewWordFromNoFormatStringList(noFormatListString);
+            try {
+                DataService.writeNewWordToFile("words.txt", "wordsCopy.txt", newWord);
+                return "Word has been added";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return "there isn't such menu";
     }

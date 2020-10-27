@@ -1,5 +1,6 @@
 package by.Andrey.jis3telegram.bean;
 
+import by.Andrey.jis3telegram.enums.Emoji;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,7 @@ public class Word implements Serializable {
     }
 
     public String getAmazingView(){
-        String view =getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n";
+        String view = "" + getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n";
         String[] exampleParts = breakIntoPeacesFieldExample();
         for (int i=0; i< exampleParts.length;  i++){
             view = view.concat("- " + exampleParts[i] + "\n");

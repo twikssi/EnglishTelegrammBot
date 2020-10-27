@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class CommandServiceTest {
 
-    @Test
-    public void getCommand() {
-        System.out.println(CommandService.getWordFromCommand("/get word put over"));
-    }
+//    @Test
+//    public void getCommand() {
+//        System.out.println(CommandService.getWordFromCommand("/get word put over"));
+//    }
 
 
     @Test
@@ -17,15 +17,15 @@ public class CommandServiceTest {
         System.out.println(CommandService.getMeaningsFromWebSite("put "));
     }
 
-    @Test
-    public void checkCommand() {
-        boolean expected = CommandService.checkCommand("/get pv get");
-        System.out.println(expected);
-    }
-
-    @org.junit.Test
-    public void getWordFromCommandAdded() {
-        String result = CommandService.getWordFromCommandAdd("/added get off");
-        System.out.println(result);
-    }
+//    @Test
+//    public void checkCommand() {
+//        boolean expected = CommandService.checkCommand("/get pv get");
+//        System.out.println(expected);
+//    }
+//
+//    @org.junit.Test
+//    public void getWordFromCommandAdded() {
+//        String result = CommandService.getWordFromCommandAdd("/added get off");
+//        System.out.println(result);
+//    }
 }
