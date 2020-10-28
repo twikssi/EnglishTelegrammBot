@@ -15,6 +15,7 @@ public class Menu {
     public static final String menuStatisticCommandLongStatistic = "long statistic " + Emoji.STATISTIC_LONG;
     public static final String menuSearchInputWord = "input word";
     public static final String menuAddWordInputWord = "input word";
+    public static final String menuAddWordDelete = "delete word";
     public static final String CHOOSE_COMMAND = "choose command";
     public static final String NO_MENU_COMMAND= "there isn't such menu";
 

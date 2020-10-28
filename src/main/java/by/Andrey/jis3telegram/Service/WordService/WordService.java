@@ -32,6 +32,16 @@ public class WordService {
                 .isDaily(false).build();
     }
 
+    public static boolean validateWord(Word word){
+        if (word.getPartsOfSpeech() == PartsOfSpeech.NO_PART_OF_SPEECH &&
+                word.getTranscription().equals("[]") &&
+                word.getMeaning().equals("")){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static List<Word> getListOnlyWords(List<Word> words){
         List<Word> onlyWords = words.stream().filter(a -> a.getPartsOfSpeech() != PartsOfSpeech.PHRASAL_VERB)
                 .collect(Collectors.toList());

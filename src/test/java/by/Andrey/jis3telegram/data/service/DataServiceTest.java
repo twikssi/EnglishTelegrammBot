@@ -56,6 +56,15 @@ public class DataServiceTest {
     }
 
 //    @org.junit.Test
+//    public void deleteWordFromFile() throws IOException {
+//        List<String> listString = DataService.getListStringWordsFromFile("wordsTest.txt");
+//        List<Word> listWords = WordService.getListWordsFromListString(listString);
+//        Word word = WordService.searchWordWithName(listWords,"pull out");
+//
+//        DataService.deleteWordFromFile(listWords,"wordsTest.txt", "wordsCopyTest.txt", word );
+//    }
+
+//    @org.junit.Test
 //    public void writeNewWordToFile() throws IOException {
 //        DataFromWebSite fromWebSite = new DataFromWebSite("pull");
 //        Word word = WordService.createNewWordFromNoFormatStringList(fromWebSite.getListNoFormatFieldOfWord());

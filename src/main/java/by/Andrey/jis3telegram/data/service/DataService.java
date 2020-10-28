@@ -64,4 +64,12 @@ public class DataService {
         listWords.add(word);
         writeListWordsToFile(fileName, listWords, true);
     }
+
+    public static void deleteWordFromFile(List<Word> listWords, String fileName, String fileToCopy, Word word) throws IOException {
+        copyFiles(fileName, fileToCopy);
+        List<Word> listWordsToFile = new ArrayList<>();
+        listWordsToFile.addAll(listWords);
+        listWordsToFile.remove(word);
+        writeListWordsToFile(fileName, listWordsToFile, false);
+    }
 }
