@@ -7,6 +7,7 @@ import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.enums.Emoji;
 import by.Andrey.jis3telegram.statistic.Statistic;
+import by.Andrey.jis3telegram.ui.Menu;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,12 +24,12 @@ import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
 import static by.Andrey.jis3telegram.data.service.DataService.*;
+import static by.Andrey.jis3telegram.ui.Menu.*;
 
 
 @Component
 public class BorisevichBot extends TelegramLongPollingBot {
     ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-    InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
     String lastMessage = "";
     String secondMenuCommand = "";
     private long chaId;
@@ -55,106 +56,36 @@ public class BorisevichBot extends TelegramLongPollingBot {
             if (lastMessage.equals("")) {
                 sendMessage.setText(getMessage(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("words" + Emoji.ARROW_DOWN.toString())) {
+            } else if (lastMessage.equals(mainMenuRandom)) {
                 sendMessage.setText(getMenuWords(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("statistic " + Emoji.STATISTIC.toString())) {
+            } else if (lastMessage.equals(mainMenuStatistic)) {
                 sendMessage.setText(getMenuStatistic(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("search")) {
+            } else if (lastMessage.equals(mainMenuSearch)) {
                 sendMessage.setText(getMenuSearch(text));
                 execute(sendMessage);
-            } else if (lastMessage.equals("add words")) {
+            } else if (lastMessage.equals(mainMenuAddWord)) {
                 sendMessage.setText(getMenuAddWord(text));
                 execute(sendMessage);
             } else {
-                sendMessage.setText("There isn't such command");
+                sendMessage.setText(NO_MENU_COMMAND);
                 execute(sendMessage);
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
-//                if (checkCommandAdd(message.getText().toLowerCase())) {
-//                    String word = getWordFromCommandAdd(message.getText().toLowerCase());
-//                    if (!word.equals("")) {
-//                        DataFromWebSite wordFromWebSite = new DataFromWebSite(word);
-//                        List<String> noFormatListString = wordFromWebSite.getListNoFormatFieldOfWord();
-//                        Word newWord = createNewWordFromNoFormatStringList(noFormatListString);
-//                        try {
-//                            DataService.writeNewWordToFile("words.txt", "wordsCopy.txt", newWord);
-//                            String answer = "Word has been added";
-//                            sendMesg(message, answer);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//                if (checkCommand(message.getText().toLowerCase())) {
-//                    try {
-//                        String word = getWordFromCommand(message.getText().toLowerCase());
-//
-//                        List<Word> listWords = getListWordsFromListString(getListStringWordsFromFile("words.txt"));
-//                        if (WordService.isWordExistInList(listWords, word)) {
-//                            Word responsWord = searchWordWithName(listWords, word);
-//                            sendMesg(message, responsWord.getAmazingView());
-//                            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", responsWord);
-//                            Thread.sleep(2500);
-//                        }
-//                        sendMesg(message, "you can find it on " + CommandService.getMeaningsFromWebSite(word));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-
-//                    case "/get short statistic":
-//                        try {
-//                            Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
-//                            String response = statistic.returnShortStatistic();
-//                            sendMesg(message, response);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        break;
-//                    case "/get long statistic":
-//                        try {
-//                            Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
-//                            String response = statistic.returnLongStatistic();
-//                            sendMesg(message, response);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        break;
-//                    case "/help":
-//                        String response = getListCommand();
-//                        sendMesg(message, response);
-//                        break;
-//                    case "/start":
-//                        //startBotAndLoadMainMenu(message, "Hi");
-//                        break;
-//                    default:
-//                        break;
-//                }
-        //           }
     }
 
+    public void createKeyboard(){
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
 
-//    public void sendMesg(Message message, String response) {
-//        SendMessage sendMessage = new SendMessage();
-//        sendMessage.setChatId(message.getChatId());
-//        sendMessage.setText(response);
-//        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-//        try {
-//            execute(sendMessage);
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+    }
 
     public String getMessage(String msg) {
         // Создаем список строк клавиатуры
@@ -171,34 +102,34 @@ public class BorisevichBot extends TelegramLongPollingBot {
         if (msg.equals("/start") || msg.equals("Menu")) {
             lastMessage = "";
             createMainMenu(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        if (msg.equals("words"+ Emoji.ARROW_DOWN.toString())) {
+        if (msg.equals(mainMenuRandom)) {
             lastMessage = msg;
             createMenuWords(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        if (msg.equals("statistic " + Emoji.STATISTIC.toString())) {
+        if (msg.equals(mainMenuStatistic)) {
             lastMessage = msg;
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        if (msg.equals("search")) {
+        if (msg.equals(mainMenuSearch)) {
             lastMessage = msg;
             createMenuSearch(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        if (msg.equals("add words")) {
+        if (msg.equals(mainMenuAddWord)) {
             lastMessage = msg;
             createMenuAddWord(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        if (msg.equals("<-back")) {
+        if (msg.equals(menuCommandBack)) {
             createMainMenu(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             lastMessage = "";
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        return "there isn't such menu";
+        return NO_MENU_COMMAND;
     }
 
     public void createMainMenu(String msg, List<KeyboardRow> keyboard, KeyboardRow keyboardFirstRow, KeyboardRow keyboardSecondRow) {
@@ -206,12 +137,12 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("words" + Emoji.ARROW_DOWN.toString());
-        keyboardFirstRow.add("statistic " + Emoji.STATISTIC.toString());
+        keyboardFirstRow.add(mainMenuRandom);
+        keyboardFirstRow.add(mainMenuStatistic);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("search");
-        keyboardSecondRow.add("add words");
+        keyboardSecondRow.add(mainMenuSearch);
+        keyboardSecondRow.add(mainMenuAddWord);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -224,12 +155,12 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("any word");
-        keyboardFirstRow.add("only words");
+        keyboardFirstRow.add(menuRandomCommandAnyWord);
+        keyboardFirstRow.add(menuRandomCommandOnlyWords);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("only phrasal verb");
-        keyboardSecondRow.add("<-back");
+        keyboardSecondRow.add(menuRandomCommandOnlyPhrasalVerb);
+        keyboardSecondRow.add(menuCommandBack);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -242,11 +173,11 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("short statistic " + Emoji.STATISTIC_SHORT);
+        keyboardFirstRow.add(menuStatisticCommandShortStatistic);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("long statistic " + Emoji.STATISTIC_LONG);
-        keyboardSecondRow.add("<-back");
+        keyboardSecondRow.add(menuStatisticCommandLongStatistic);
+        keyboardSecondRow.add(menuCommandBack);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -259,10 +190,10 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("input word");
+        keyboardFirstRow.add(menuSearchInputWord);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("<-back");
+        keyboardSecondRow.add(menuCommandBack);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -275,10 +206,10 @@ public class BorisevichBot extends TelegramLongPollingBot {
         keyboard.clear();
         keyboardFirstRow.clear();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("input word");
+        keyboardFirstRow.add(menuAddWordInputWord);
 
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("<-back");
+        keyboardSecondRow.add(menuCommandBack);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -299,7 +230,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        if (msg.equals("any word")) {
+        if (msg.equals(menuRandomCommandAnyWord)) {
             createMenuWords(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Word word = getRandomWord(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
@@ -309,7 +240,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("only words")) {
+        if (msg.equals(menuRandomCommandOnlyWords)) {
             createMenuWords(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Word word = getRandomWord(getListOnlyWords(getListWordsFromListString(getListStringWordsFromFile("words.txt"))));
@@ -319,7 +250,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("only phrasal verb")) {
+        if (msg.equals(menuRandomCommandOnlyPhrasalVerb)) {
             createMenuWords(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Word word = getRandomWord(getListOnlyPhrasalVerbs(getListWordsFromListString(getListStringWordsFromFile("words.txt"))));
@@ -329,12 +260,12 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("<-back")) {
+        if (msg.equals(menuCommandBack)) {
             getMessage("/start");
             lastMessage = "";
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        return "there isn't such menu";
+        return NO_MENU_COMMAND;
     }
 
     public String getMenuStatistic(String msg) {
@@ -349,7 +280,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        if (msg.equals("short statistic " + Emoji.STATISTIC_SHORT)) {
+        if (msg.equals(menuStatisticCommandShortStatistic)) {
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
@@ -359,7 +290,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("long statistic "  + Emoji.STATISTIC_LONG)) {
+        if (msg.equals(menuStatisticCommandLongStatistic)) {
             createMenuStatistic(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             try {
                 Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
@@ -369,36 +300,33 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        if (msg.equals("<-back")) {
+        if (msg.equals(menuCommandBack)) {
             getMessage("/start");
             lastMessage = "";
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
-        return "there isn't such menu";
+        return NO_MENU_COMMAND;
     }
 
     public String getMenuSearch(String msg) {
-        // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
-        // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        if (msg.equals("input word")) {
+        if (msg.equals(menuSearchInputWord)) {
             createMenuSearch(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             secondMenuCommand = "search word";
             return "input word which you want to find out";
         }
-        if (msg.equals("<-back")) {
+        if (msg.equals(menuCommandBack)) {
             getMessage("/start");
             lastMessage = "";
             secondMenuCommand = "";
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
         if (secondMenuCommand.equals("search word")) {
             try {
@@ -415,31 +343,28 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        return "there isn't such menu";
+        return NO_MENU_COMMAND;
     }
 
     public String getMenuAddWord(String msg) {
-        // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
-        // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
-        if (msg.equals("input word")) {
+        if (msg.equals(menuAddWordInputWord)) {
             createMenuAddWord(msg, keyboard, keyboardFirstRow, keyboardSecondRow);
             secondMenuCommand = "add words";
             return "input word which you want to add";
         }
-        if (msg.equals("<-back")) {
+        if (msg.equals(menuCommandBack)) {
             getMessage("/start");
             lastMessage = "";
             secondMenuCommand = "";
-            return "choose...";
+            return CHOOSE_COMMAND;
         }
         if (secondMenuCommand.equals("add words")) {
             secondMenuCommand = "";
@@ -455,7 +380,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-        return "there isn't such menu";
+        return NO_MENU_COMMAND;
     }
 
 }
