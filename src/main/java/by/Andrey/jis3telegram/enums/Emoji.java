@@ -11,7 +11,11 @@ public enum Emoji {
     STATISTIC_LONG(EmojiParser.parseToUnicode("&#128201;")),
     BACK(EmojiParser.parseToUnicode("&#11013;")),
     SEARCH(EmojiParser.parseToUnicode("&#128269;")),
-    ADD_WORD(EmojiParser.parseToUnicode("&#127909;"));
+    SETUP(EmojiParser.parseToUnicode("&#9881;")),
+    CLEVER(EmojiParser.parseToUnicode("&#127808;")),
+    PIN(EmojiParser.parseToUnicode("&#128204;")),
+    TILDA(EmojiParser.parseToUnicode("&#12336;")),
+    QUESTION_AND(EmojiParser.parseToUnicode("&#8265;"));
 
 
 

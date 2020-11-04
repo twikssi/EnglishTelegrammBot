@@ -44,6 +44,11 @@ public class DataFromWebSite {
         return Jsoup.parse(element.toString()).text();
     }
 
+    public String pullOutMoreExamplesFromWebSite(){
+        Elements element = doc.getElementsByClass("eg dexamp hax");
+        return Jsoup.parse(element.toString()).text();
+    }
+
     public List<String> getListNoFormatFieldOfWord (){
         List<String> listNoFormatFieldsOfWord = new ArrayList<>();
         listNoFormatFieldsOfWord.add(word);

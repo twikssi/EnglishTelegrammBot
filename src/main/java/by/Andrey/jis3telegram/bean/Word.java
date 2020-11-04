@@ -31,12 +31,77 @@ public class Word implements Serializable {
         this.isDaily = isDaily;
     }
 
+    public String getDoYouMemberIt (){
+        String firstViewWithQuestions = "'" + getName() +"'" + " - " +
+                Emoji.QUESTION_AND.toString() +
+                Emoji.QUESTION_AND.toString() +
+                Emoji.QUESTION_AND.toString() +
+                Emoji.QUESTION_AND.toString() +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString() + "\n" +
+                Emoji.QUESTION_AND.toString()  +
+                "Do you 'member it" +  Emoji.QUESTION_AND.toString() + "\n\n";
+        return firstViewWithQuestions;
+    }
+
     public String getAmazingView(){
-        String view = "" + getName() + " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " + getTranscription() + " - " + getMeaning() + "\n";
+                String beginAndEnd = "\t" + Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString()  +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.PIN.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                "\n";
+        String view =
+                getName() +
+                " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " +
+                getTranscription() + " - " +
+                getMeaning() + "\n";
         String[] exampleParts = breakIntoPeacesFieldExample();
         for (int i=0; i< exampleParts.length;  i++){
-            view = view.concat("- " + exampleParts[i] + "\n");
+            view = view.concat(Emoji.CLEVER.toString() + " " + exampleParts[i] + "\n");
         }
+        view = getDoYouMemberIt() + beginAndEnd + view + beginAndEnd;
+        return view;
+    }
+
+    public String getAmazingViewAddWord(){
+        String beginAndEnd = "\t" + Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString()  +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.PIN.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                Emoji.TILDA.toString() +
+                "\n";
+        String view =
+                getName() +
+                        " ("+ getPartsOfSpeech().toString().toLowerCase() + ") - " +
+                        getTranscription() + " - " +
+                        getMeaning() + "\n";
+        String[] exampleParts = breakIntoPeacesFieldExample();
+        for (int i=0; i< exampleParts.length;  i++){
+            view = view.concat(Emoji.CLEVER.toString() + " " + exampleParts[i] + "\n");
+        }
+        view = beginAndEnd + view + beginAndEnd;
         return view;
     }
 

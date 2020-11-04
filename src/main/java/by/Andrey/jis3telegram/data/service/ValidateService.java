@@ -1,9 +1,12 @@
 package by.Andrey.jis3telegram.data.service;
 
+import by.Andrey.jis3telegram.enums.Emoji;
 import by.Andrey.jis3telegram.enums.PartsOfSpeech;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ValidateService {
     public static String[] breakStringOnPeaceWithSpace(String line){
@@ -16,6 +19,23 @@ public class ValidateService {
 
     public static String[] breakStringOnPeaceWithSlash(String line){
         return line.split("/");
+    }
+
+    public static String replaceStringOnPeaceWithDotes(String line){
+        return line.replace(".","./");
+    }
+
+    public static String getAmazingViewMoreExamples(String noFormatExamples){
+        if (noFormatExamples.equals("")){
+            return "";
+        } else {
+            String[] examples = breakStringOnPeaceWithSlash(replaceStringOnPeaceWithDotes(noFormatExamples));
+            String moreExamples = "";
+            for (int i = 0; i < examples.length; i++){
+                moreExamples = moreExamples + Emoji.CLEVER.toString() + " " + examples[i] + "\n";
+            }
+            return moreExamples;
+        }
     }
 
     public static String replaceDotersSlashesQuestionSymbolAndAttentionSymbolToSlashAndNewLine(String line){

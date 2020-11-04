@@ -29,7 +29,7 @@ public class DataService {
         }
     }
 
-    public static List<String> getListStringWordsFromFile(String fileName) throws IOException{
+    public static synchronized List<String> getListStringWordsFromFile(String fileName) throws IOException{
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(filePath.concat(fileName)), "UTF8"));
@@ -42,7 +42,7 @@ public class DataService {
         return EnglishWords;
     }
 
-    public static void writeListWordsToFile (String fileName, List<Word> words, boolean isAppend) throws IOException {
+    public static synchronized void writeListWordsToFile (String fileName, List<Word> words, boolean isAppend) throws IOException {
         BufferedWriter  out = new BufferedWriter(new FileWriter(filePath.concat(fileName), isAppend));
         for(Word word:words){
             out.write(word.viewToWriteFile());
@@ -51,21 +51,21 @@ public class DataService {
         out.close();
     }
 
-    public static void rewriteFieldNumberOfRepetitionToFile(String fileName, String fileToCopy, Word word) throws IOException {
+    public static synchronized void rewriteFieldNumberOfRepetitionToFile(String fileName, String fileToCopy, Word word) throws IOException {
         List<Word> listWords = WordService.getListWordsFromListString(getListStringWordsFromFile(fileName));
         copyFiles(fileName, fileToCopy);
         WordService.increaseNumberOfRepetitions(listWords, word);
         writeListWordsToFile(fileName, listWords, false);
     }
 
-    public static void writeNewWordToFile(String fileName, String fileToCopy, Word word) throws IOException {
+    public static synchronized void writeNewWordToFile(String fileName, String fileToCopy, Word word) throws IOException {
         copyFiles(fileName, fileToCopy);
         List<Word> listWords = new ArrayList<>();
         listWords.add(word);
         writeListWordsToFile(fileName, listWords, true);
     }
 
-    public static void deleteWordFromFile(List<Word> listWords, String fileName, String fileToCopy, Word word) throws IOException {
+    public static synchronized void deleteWordFromFile(List<Word> listWords, String fileName, String fileToCopy, Word word) throws IOException {
         copyFiles(fileName, fileToCopy);
         List<Word> listWordsToFile = new ArrayList<>();
         listWordsToFile.addAll(listWords);

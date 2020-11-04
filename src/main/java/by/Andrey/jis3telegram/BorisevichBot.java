@@ -5,6 +5,7 @@ import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.DataService;
+import by.Andrey.jis3telegram.data.service.ValidateService;
 import by.Andrey.jis3telegram.enums.Emoji;
 import by.Andrey.jis3telegram.statistic.Statistic;
 import by.Andrey.jis3telegram.ui.Menu;
@@ -80,15 +81,6 @@ public class BorisevichBot extends TelegramLongPollingBot {
         }
     }
 
-    public void createKeyboard(){
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
-    }
 
     public String getMessage(String msg) {
         // Создаем список строк клавиатуры
@@ -386,7 +378,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 if (validateWord(newWord)){
                     newWord.setNumberOfRepetitions(1);
                     DataService.writeNewWordToFile("words.txt", "wordsCopy.txt", newWord);
-                    return newWord.getAmazingView();
+                    return newWord.getAmazingViewAddWord();
                 } else {
                     return "I didn`t find out this word";
                 }

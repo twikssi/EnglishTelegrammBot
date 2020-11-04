@@ -1,6 +1,8 @@
 package by.Andrey.jis3telegram.command;
 
 import by.Andrey.jis3telegram.bean.Word;
+import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
+import by.Andrey.jis3telegram.data.service.ValidateService;
 
 import java.io.IOException;
 
@@ -30,7 +32,13 @@ public class CommandService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return word.getAmazingView();
+        DataFromWebSite moreExamplesFromWebSite = new DataFromWebSite(word.getName());
+        String moreEx = ValidateService.getAmazingViewMoreExamples(moreExamplesFromWebSite.pullOutMoreExamplesFromWebSite());
+        if (moreEx.equals("")){
+            return word.getAmazingView();
+        } else {
+            return word.getAmazingView() + "More Examples:" + "\n" + moreEx;
+        }
     }
 
 
