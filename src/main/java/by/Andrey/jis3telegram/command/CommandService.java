@@ -3,6 +3,7 @@ package by.Andrey.jis3telegram.command;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
 import by.Andrey.jis3telegram.data.service.ValidateService;
+import by.Andrey.jis3telegram.data.togoogletranslate.ToGoogleTranslate;
 
 import java.io.IOException;
 
@@ -26,18 +27,23 @@ public class CommandService {
 
     public static String commandGetRandomWord(){
         Word word = new Word();
+        String urlGoogletransEx = "\n Listen to examples with google translate: \n";
+        String urlGoogletransMoreEx = "\n Listen to more examples with google translate: \n";
         try {
             word = getRandomWord(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
+            urlGoogletransEx = urlGoogletransEx + ToGoogleTranslate.getUrlGoogleWithCorrectText(word.getExample());
             rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", word);
         } catch (IOException e) {
             e.printStackTrace();
         }
         DataFromWebSite moreExamplesFromWebSite = new DataFromWebSite(word.getName());
-        String moreEx = ValidateService.getAmazingViewMoreExamples(moreExamplesFromWebSite.pullOutMoreExamplesFromWebSite());
+        String text = moreExamplesFromWebSite.pullOutMoreExamplesFromWebSite();
+        String moreEx = ValidateService.getAmazingViewMoreExamples(text);
+        urlGoogletransMoreEx = urlGoogletransMoreEx + ToGoogleTranslate.getUrlGoogleWithCorrectText(text);
         if (moreEx.equals("")){
-            return word.getAmazingView();
+            return word.getAmazingView() + urlGoogletransEx + "/n";
         } else {
-            return word.getAmazingView() + "More Examples:" + "\n" + moreEx;
+            return word.getAmazingView() + "More Examples:" + "\n" + moreEx + urlGoogletransEx + urlGoogletransMoreEx;
         }
     }
 
