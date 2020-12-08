@@ -41,7 +41,7 @@ public class CommandService {
         String moreEx = ValidateService.getAmazingViewMoreExamples(text);
         urlGoogletransMoreEx = urlGoogletransMoreEx + ToGoogleTranslate.getUrlGoogleWithCorrectText(text);
         if (moreEx.equals("")){
-            return word.getAmazingView() + urlGoogletransEx + "/n";
+            return word.getAmazingView() + urlGoogletransEx;
         } else {
             return word.getAmazingView() + "More Examples:" + "\n" + moreEx + urlGoogletransEx + urlGoogletransMoreEx;
         }

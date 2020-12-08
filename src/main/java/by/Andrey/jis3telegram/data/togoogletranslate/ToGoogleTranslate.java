@@ -7,7 +7,14 @@ public class ToGoogleTranslate {
         return text.replace(" ", "%20");
     }
 
+    public static String replaceIncorrectSymbals(String textInccorrect){
+        String correctText = textInccorrect;
+        correctText = correctText.replace("\"", " ");
+        correctText = correctText.replace("/", " ");
+        return correctText;
+    }
+
     public static String getUrlGoogleWithCorrectText(String correctText){
-        return urlGoogle.concat(replaceAllspaceOn20Percent(correctText));
+        return urlGoogle.concat(replaceAllspaceOn20Percent(replaceIncorrectSymbals(correctText)));
     }
 }

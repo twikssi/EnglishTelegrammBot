@@ -8,6 +8,7 @@ public class ToGoogleTranslateTest {
 
     @Test
     public void getUrlGoogleWithCorrectText() {
-        System.out.println(ToGoogleTranslate.getUrlGoogleWithCorrectText("hi how are you"));
+        String text = ToGoogleTranslate.getUrlGoogleWithCorrectText("hi how are you\" /hi \"tolya\" /");
+        System.out.println(text);
     }
 }
