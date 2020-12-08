@@ -1,14 +1,18 @@
 package by.Andrey.jis3telegram.command;
 
+import by.Andrey.jis3telegram.Service.WordService.WordService;
 import by.Andrey.jis3telegram.bean.Word;
 import by.Andrey.jis3telegram.data.dataFromWebSite.DataFromWebSite;
+import by.Andrey.jis3telegram.data.service.DataService;
 import by.Andrey.jis3telegram.data.service.ValidateService;
 import by.Andrey.jis3telegram.data.togoogletranslate.ToGoogleTranslate;
+import by.Andrey.jis3telegram.statistic.Statistic;
 
 import java.io.IOException;
+import java.util.List;
 
-import static by.Andrey.jis3telegram.Service.WordService.WordService.getListWordsFromListString;
-import static by.Andrey.jis3telegram.Service.WordService.WordService.getRandomWord;
+import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
+import static by.Andrey.jis3telegram.controllers.MenuController.lastWord;
 import static by.Andrey.jis3telegram.data.service.DataService.getListStringWordsFromFile;
 import static by.Andrey.jis3telegram.data.service.DataService.rewriteFieldNumberOfRepetitionToFile;
 
@@ -32,7 +36,8 @@ public class CommandService {
         try {
             word = getRandomWord(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
             urlGoogletransEx = urlGoogletransEx + ToGoogleTranslate.getUrlGoogleWithCorrectText(word.getExample());
-            rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", word);
+            lastWord = word;
+            //rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", word);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +52,85 @@ public class CommandService {
         }
     }
 
+    public static String commandSearchExecute(String msg){
+        String word = msg.toLowerCase().trim();
+        try {
+                List<Word> listWords = getListWordsFromListString(getListStringWordsFromFile("words.txt"));
+                if (WordService.isWordExistInList(listWords, word)) {
+                    Word responsWord = searchWordWithName(listWords, word);
+                    //rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", responsWord);
+                    return responsWord.getAmazingView();
+                } else {
 
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return "There isn`t this word. You can see it on: \n" + CommandService.getMeaningsFromWebSite(word);
+    }
 
+    public static String CommandAddWord(String msg){
 
+            String word = msg.toLowerCase().trim();
+            DataFromWebSite wordFromWebSite = new DataFromWebSite(word);
+            List<String> noFormatListString = wordFromWebSite.getListNoFormatFieldOfWord();
+            Word newWord = createNewWordFromNoFormatStringList(noFormatListString);
+            try {
+                if (validateWord(newWord)){
+                    newWord.setNumberOfRepetitions(1);
+                    DataService.writeNewWordToFile("words.txt", "wordsCopy.txt", newWord);
+                    return newWord.getAmazingViewAddWord();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+         return "I didn`t find out this word";
+        }
+
+    public static String CommandDeleteWord(String msg){
+        String wordString = msg.toLowerCase().trim();
+        try {
+                List<String> listString = getListStringWordsFromFile("words.txt");
+                List<Word> listWords = getListWordsFromListString(listString);
+                if (WordService.isWordExistInList(listWords, wordString)){
+                    Word word = WordService.searchWordWithName(listWords,wordString);
+                    DataService.deleteWordFromFile(listWords, "words.txt", "wordsCopy.txt", word);
+                    return "Word '" + wordString + "' has been deleted";
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return "I haven`t this word";
+    }
+
+    public static String CommandGetStatistic(){
+        try {
+                Statistic statistic = new Statistic(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
+                String response = statistic.returnShortStatistic();
+                return response;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return "Sorry, my fault";
+    }
+
+    public static void CommandLearnedWord(String word){
+        List<String> listString = null;
+        try {
+            listString = getListStringWordsFromFile("words.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<Word> listWords = getListWordsFromListString(listString);
+
+        if (WordService.isWordExistInList(listWords, word)){
+            Word searchWord = WordService.searchWordWithName(listWords, word);
+            try {
+                rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", searchWord);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+

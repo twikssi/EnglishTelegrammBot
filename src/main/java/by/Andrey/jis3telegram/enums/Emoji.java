@@ -2,8 +2,8 @@ package by.Andrey.jis3telegram.enums;
 
 import com.vdurmont.emoji.EmojiParser;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 public enum Emoji {
     RANDOM(EmojiParser.parseToUnicode("&#127922;")),
     STATISTIC(EmojiParser.parseToUnicode("&#128202;")),
@@ -17,7 +17,9 @@ public enum Emoji {
     TILDA(EmojiParser.parseToUnicode("&#12336;")),
     QUESTION_AND(EmojiParser.parseToUnicode("&#8265;"));
 
-
+    Emoji(String emojiName) {
+        this.emojiName = emojiName;
+    }
 
     private String emojiName;
 
