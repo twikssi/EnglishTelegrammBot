@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static by.Andrey.jis3telegram.controllers.MenuController.counterLearnedWords;
 import static by.Andrey.jis3telegram.controllers.MenuController.lastWord;
 import static by.Andrey.jis3telegram.ui.Menu.*;
 
@@ -100,9 +101,8 @@ public class BorisevichBot extends TelegramLongPollingBot {
             SendMessage send = new SendMessage();
             send.setChatId(chaId);
             send.setText(CommandService.commandGetRandomWord());
-
             send.setReplyMarkup(Keyboard.InlineKeyBoardMessage(lastWord));
-            if (hour >= 10 && hour <= 23){
+            if (hour >= 10 && hour <= 22){
                 try {
                     execute(send);
                     Thread.sleep(3600000); //60000 - one minute
@@ -114,9 +114,17 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 }
             } else {
                 try {
+                    if (counterLearnedWords != -1){
+                        SendMessage senfCounterLernedWords = new SendMessage().setChatId(chaId);
+                        senfCounterLernedWords.setText("You've learned " + String.valueOf(counterLearnedWords + 1) + " today");
+                        counterLearnedWords = -1;
+                        execute(senfCounterLernedWords);
+                    }
                     Thread.sleep(3600000);
                     threadCounter = 0;
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }

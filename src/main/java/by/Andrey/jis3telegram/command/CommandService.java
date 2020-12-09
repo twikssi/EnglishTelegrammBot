@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
+import static by.Andrey.jis3telegram.controllers.MenuController.counterLearnedWords;
 import static by.Andrey.jis3telegram.controllers.MenuController.lastWord;
 import static by.Andrey.jis3telegram.data.service.DataService.getListStringWordsFromFile;
 import static by.Andrey.jis3telegram.data.service.DataService.rewriteFieldNumberOfRepetitionToFile;
@@ -37,7 +38,6 @@ public class CommandService {
             word = getRandomWord(getListWordsFromListString(getListStringWordsFromFile("words.txt")));
             urlGoogletransEx = urlGoogletransEx + ToGoogleTranslate.getUrlGoogleWithCorrectText(word.getExample());
             lastWord = word;
-            //rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", word);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,6 @@ public class CommandService {
                 List<Word> listWords = getListWordsFromListString(getListStringWordsFromFile("words.txt"));
                 if (WordService.isWordExistInList(listWords, word)) {
                     Word responsWord = searchWordWithName(listWords, word);
-                    //rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", responsWord);
                     return responsWord.getAmazingView();
                 } else {
 
@@ -126,6 +125,7 @@ public class CommandService {
         if (WordService.isWordExistInList(listWords, word)){
             Word searchWord = WordService.searchWordWithName(listWords, word);
             try {
+                counterLearnedWords++;
                 rewriteFieldNumberOfRepetitionToFile("words.txt", "wordsCopy.txt", searchWord);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -11,6 +11,7 @@ public class MenuController {
     public static String secondMenuCommand = "";
     public static String lastMessage = "";
     public static Word lastWord = null;
+    public static int counterLearnedWords = -1;
 
     public SendMessage getCallBackMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage();
