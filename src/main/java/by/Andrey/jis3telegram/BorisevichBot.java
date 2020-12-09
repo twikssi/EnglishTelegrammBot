@@ -15,8 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static by.Andrey.jis3telegram.controllers.MenuController.counterLearnedWords;
-import static by.Andrey.jis3telegram.controllers.MenuController.lastWord;
+import static by.Andrey.jis3telegram.controllers.MenuController.*;
 import static by.Andrey.jis3telegram.ui.Menu.*;
 
 
@@ -116,8 +115,9 @@ public class BorisevichBot extends TelegramLongPollingBot {
                 try {
                     if (counterLearnedWords != -1){
                         SendMessage senfCounterLernedWords = new SendMessage().setChatId(chaId);
-                        senfCounterLernedWords.setText("You've learned " + String.valueOf(counterLearnedWords + 1) + " today");
+                        senfCounterLernedWords.setText("You've learned " + String.valueOf(counterLearnedWords + 1) + " today!\n" + listWordsEndOfTheDay.toString());
                         counterLearnedWords = -1;
+                        listWordsEndOfTheDay.clear();
                         execute(senfCounterLernedWords);
                     }
                     Thread.sleep(3600000);

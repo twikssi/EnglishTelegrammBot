@@ -5,6 +5,9 @@ import by.Andrey.jis3telegram.command.CommandService;
 import by.Andrey.jis3telegram.ui.Keyboard;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static by.Andrey.jis3telegram.ui.Menu.*;
 
 public class MenuController {
@@ -12,6 +15,7 @@ public class MenuController {
     public static String lastMessage = "";
     public static Word lastWord = null;
     public static int counterLearnedWords = -1;
+    public static List<String> listWordsEndOfTheDay = new ArrayList<>();
 
     public SendMessage getCallBackMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage();

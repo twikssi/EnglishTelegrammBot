@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static by.Andrey.jis3telegram.Service.WordService.WordService.*;
-import static by.Andrey.jis3telegram.controllers.MenuController.counterLearnedWords;
-import static by.Andrey.jis3telegram.controllers.MenuController.lastWord;
+import static by.Andrey.jis3telegram.controllers.MenuController.*;
 import static by.Andrey.jis3telegram.data.service.DataService.getListStringWordsFromFile;
 import static by.Andrey.jis3telegram.data.service.DataService.rewriteFieldNumberOfRepetitionToFile;
 
@@ -114,6 +113,7 @@ public class CommandService {
     }
 
     public static void CommandLearnedWord(String word){
+        listWordsEndOfTheDay.add(word);
         List<String> listString = null;
         try {
             listString = getListStringWordsFromFile("words.txt");
