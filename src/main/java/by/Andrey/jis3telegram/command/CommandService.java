@@ -75,7 +75,7 @@ public class CommandService {
             Word newWord = createNewWordFromNoFormatStringList(noFormatListString);
             try {
                 if (validateWord(newWord)){
-                    newWord.setNumberOfRepetitions(1);
+                    newWord.setNumberOfRepetitions(0);
                     DataService.writeNewWordToFile("words.txt", "wordsCopy.txt", newWord);
                     return newWord.getAmazingViewAddWord();
                 }
