@@ -3,29 +3,47 @@ package by.Andrey.jis3telegram.data.dataFromWebSite;
 import by.Andrey.jis3telegram.data.service.ValidateService;
 import org.junit.Test;
 
+import java.sql.SQLOutput;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class DataFromWebSiteTest {
 
+
 //    @Test
-//    public void catchPartOfSpeechFromWebSite() {
-//        DataFromWebSite fromWebSite = new DataFromWebSite("pleasant");
-//        String[] result = ValidateService.breakStringOnPeaceWithSpace(fromWebSite.pullOutPartOfSpeechFromWebSite());
-//        System.out.println(result[0]);
+//    public void pullOutMoreExamplesFromWebSiteNew() {
+//        DataFromWebSite fromWebSite = new DataFromWebSite("settle");
+//        List<String> result = (fromWebSite.pullOutPartOfSpeechFromWebSiteNew());
+//        result.forEach(System.out::println);
+//        System.out.println(result.size());
 //    }
 //
 //    @Test
 //    public void pullOutTranscriptionFromWebSite() {
-//        DataFromWebSite fromWebSite = new DataFromWebSite("settle");
-//        String result = (fromWebSite.pullOutTranscriptionFromWebSite());
-//        System.out.println(result);
+//        DataFromWebSite fromWebSite = new DataFromWebSite("catch up");
+//        List<String> result = (fromWebSite.pullOutMeaningsFromWebSiteNew());
+//
+//        result.forEach(System.out::println);
+//        System.out.println(result.size());
 //    }
 //
 //    @Test
-//    public void pullOutMeaningFromWebSite() {
-//        DataFromWebSite fromWebSite = new DataFromWebSite("kiss");
-//        String result = (fromWebSite.pullOutMeaningFromWebSite());
-//        String[] resultAr = ValidateService.breakStringOnPeaceWithTwoDotes(result);
-//        System.out.println(resultAr[0]);
+//    public void pullOutExamplesFromWebSiteNew() {
+//        DataFromWebSite fromWebSite = new DataFromWebSite("settle");
+//        List<String> result = (fromWebSite.pullOutExamplesFromWebSiteNew());
+//
+//        result.forEach(System.out::println);
+//        System.out.println(result.size());
 //    }
 
+    @Test
+    public void addWordVocabularyInList() {
+        DataFromWebSite fromWebSite = new DataFromWebSite("take off");
+        fromWebSite.addWordVocabularyInList();
 
+
+        fromWebSite.getWordVocabularyList().forEach(System.out::println);
+
+    }
 }

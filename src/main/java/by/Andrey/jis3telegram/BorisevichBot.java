@@ -32,7 +32,7 @@ public class BorisevichBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1332611656:AAEoQL_vpni2ACJxJ0_3_kEx_2gGio4kukE";
+        return "1332611656:AAESQWdBeCTWH_pdFtK2zBncACfTNWObANk";
     }
 
 //    @Override
