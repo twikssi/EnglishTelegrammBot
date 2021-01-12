@@ -160,7 +160,6 @@ public class DataFromWebSite {
     }
 
     public void addWordVocabularyInList () {
-        try {
             for (int i = 0; i<pullOutMeaningsFromWebSiteNew().size() ; i++){
                 wordVocabularyList.add(WordVocabulary.builder()
                         .name(word)
@@ -170,8 +169,5 @@ public class DataFromWebSite {
                         .examples(pullOutExamplesFromWebSiteNew().get(i))
                         .build());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
